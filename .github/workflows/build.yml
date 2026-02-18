@@ -2,15 +2,11 @@
 name: Build
 
 on:
-  workflow_run:
-    workflows: ["Trigger"]
+  workflow_call:
     inputs:
-      hash:
-        required: true
       release:
         required: true
-    types:
-      - completed
+        type: string
 
 jobs:
   build:
@@ -62,10 +58,10 @@ jobs:
         uses: thedoctor0/zip-release@0.7.5
         with:
           path: ${{ github.workspace }}/vcpkg
-          destination: ${{ github.workspace }}/vcpkg-${{ github.event.inputs.release }}-${{ matrix.os }}.zip
+          destination: ${{ github.workspace }}/vcpkg-${{ inputs.release }}-${{ matrix.os }}.zip
 
       - name: Upload release artifact
         uses: actions/upload-artifact@v4
         with:
-          name: vcpkg-${{ matrix.os }}-${{ github.event.inputs.release }}
-          path: ${{ github.workspace }}/vcpkg-${{ github.event.inputs.release }}-${{ matrix.os }}.zip
+          name: vcpkg-${{ matrix.os }}-${{ inputs.release }}
+          path: ${{ github.workspace }}/vcpkg-${{ inputs.release }}-${{ matrix.os }}.zip
