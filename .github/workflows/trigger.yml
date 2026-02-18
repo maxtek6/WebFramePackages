@@ -62,9 +62,9 @@ jobs:
 
       - name: Trigger processing pipeline
         if: ${{ steps.set-output.outputs.trigger == 'true' }}
-        uses: peter-evans/workflow-dispatch@v2
+        uses: actions/workflow-dispatch@v2
         with:
-          workflow: 'vcpkg-build.yml'
+          workflow: 'build.yml'
           # optionally pass variables like hash / release
           inputs: |
             hash: ${{ steps.hash.outputs.hash }}

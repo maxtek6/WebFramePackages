@@ -1,13 +1,16 @@
 # .github/workflows/vcpkg-build.yml
-name: Vcpkg Build
+name: Build
 
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["Trigger"]
     inputs:
       hash:
         required: true
       release:
         required: true
+    types:
+      - completed
 
 jobs:
   build:
