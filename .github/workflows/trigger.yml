@@ -59,13 +59,3 @@ jobs:
         with:
           path: .cache
           key: vcpkg-trigger-cache
-
-      - name: Trigger processing pipeline
-        if: ${{ steps.set-output.outputs.trigger == 'true' }}
-        uses: actions/workflow-dispatch@v2
-        with:
-          workflow: 'build.yml'
-          # optionally pass variables like hash / release
-          inputs: |
-            hash: ${{ steps.hash.outputs.hash }}
-            release: ${{ steps.release.outputs.latest }}
