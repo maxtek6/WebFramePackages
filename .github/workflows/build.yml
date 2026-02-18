@@ -1,0 +1,52 @@
+# .github/workflows/vcpkg-build.yml
+name: Vcpkg Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      hash:
+        required: true
+      release:
+        required: true
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+
+      - name: Checkout WebFrame
+        uses: actions/checkout@v4
+        with:
+          repository: maxtek6/WebFrame
+          path: WebFrame
+
+      - name: Clone vcpkg
+        run: git clone https://github.com/microsoft/vcpkg.git
+          
+      - name: Windows Install
+        run: |
+          vkpkg\bootstrap-vcpkg.bat
+          vcpkg\vcpkg install --triplet x64-windows --x-manifest-root=WebFrame --manifest=vcpkg.json
+
+      - name: Linux Install
+        run: |
+          ./vcpkg/bootstrap-vcpkg.sh
+          ./vcpkg/vcpkg install --triplet x64-linux --x-manifest-root=WebFrame --manifest=vcpkg.json
+
+      - name: Package binaries
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          path: ${{ github.workspace }}/vcpkg
+          destination: ${{ github.workspace }}/vcpkg-${{ github.event.inputs.release }}-${{ matrix.os }}.zip
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: vcpkg-${{ matrix.os }}-${{ github.event.inputs.release }}
+          path: ${{ github.workspace }}/vcpkg-${{ github.event.inputs.release }}-${{ matrix.os }}.zip
