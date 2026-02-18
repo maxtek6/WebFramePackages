@@ -52,6 +52,13 @@ jobs:
       - name: Mac Install
         if: matrix.os == 'macos-latest'
         run: |
+          df -hI /dev/disk3s1s1
+          sudo rm -rf /Applications/Xcode_14.3.1.app
+          sudo rm -rf /Applications/Xcode_15.0.1.app
+          sudo rm -rf /Applications/Xcode_15.1.app
+          sudo rm -rf /Applications/Xcode_15.2.app
+          sudo rm -rf /Applications/Xcode_15.3.app
+          df -hI /dev/disk3s1s1
           brew install autoconf autoconf-archive automake libtool
           ./vcpkg/bootstrap-vcpkg.sh
           ./vcpkg/vcpkg install --triplet x64-osx
