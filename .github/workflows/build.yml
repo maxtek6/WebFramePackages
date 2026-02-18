@@ -35,7 +35,7 @@ jobs:
       - name: Windows Install
         if: matrix.os == 'windows-latest'
         run: |
-          vkpkg\bootstrap-vcpkg.bat
+          vcpkg\bootstrap-vcpkg.bat
           vcpkg\vcpkg install --triplet x64-windows --x-manifest-root=WebFrame --manifest=vcpkg.json
 
       - name: Linux Install
