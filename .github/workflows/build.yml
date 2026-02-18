@@ -54,7 +54,7 @@ jobs:
         run: |
           brew install autoconf autoconf-archive automake libtool
           ./vcpkg/bootstrap-vcpkg.sh
-          ./vcpkg/vcpkg install --triplet x64-macos
+          ./vcpkg/vcpkg install --triplet x64-osx
 
       - name: Package binaries
         uses: thedoctor0/zip-release@0.7.5
