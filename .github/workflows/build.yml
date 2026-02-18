@@ -21,7 +21,12 @@ jobs:
 
       - name: Clone vcpkg
         run: git clone https://github.com/microsoft/vcpkg.git
-          
+
+
+#      - name: Get vcpkg manifest
+#        run: |
+#          curl -O https://raw.githubusercontent.com/maxtek6/WebFrame/master/vcpkg.json
+
       - name: Windows Install
         if: matrix.os == 'windows-latest'
         run: |
@@ -44,9 +49,7 @@ jobs:
       - name: Mac Install
         if: matrix.os == 'macos-latest'
         run: |
-          df -h
           find /Applications/Xcode_* -maxdepth 0 -type d ! -name 'Xcode_${{ env.XC_VERSION }}.app' -exec rm -rf {} \;
-          df -h
           brew install autoconf autoconf-archive automake libtool
           ./vcpkg/bootstrap-vcpkg.sh
           ./vcpkg/vcpkg install --triplet x64-osx
@@ -62,3 +65,12 @@ jobs:
         with:
           name: vcpkg-${{ matrix.os }}-${{ inputs.release }}
           path: ${{ github.workspace }}/vcpkg-${{ inputs.release }}-${{ matrix.os }}.zip
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ inputs.release }}
+          name: v${{ inputs.release }}-${{ matrix.os }}
+          files: ${{ github.workspace }}/vcpkg-${{ inputs.release }}-${{ matrix.os }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
