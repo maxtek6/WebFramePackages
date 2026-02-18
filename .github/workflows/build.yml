@@ -57,8 +57,8 @@ jobs:
       - name: Package binaries
         uses: thedoctor0/zip-release@0.7.5
         with:
-          path: ${{ github.workspace }}/vcpkg
-          destination: ${{ github.workspace }}/vcpkg-${{ inputs.release }}-${{ matrix.os }}.zip
+          directory: ${{ github.workspace }}/vcpkg
+          path: ${{ github.workspace }}/vcpkg-${{ inputs.release }}-${{ matrix.os }}.zip
 
       - name: Upload release artifact
         uses: actions/upload-artifact@v4
