@@ -35,7 +35,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           vcpkg\bootstrap-vcpkg.bat
-#          vcpkg\vcpkg install --triplet x64-windows
+          vcpkg\vcpkg install --triplet x64-windows --vcpkg-root ${{ github.workspace }}\vcpkg --clean-buildtrees-after-build
 
       - name: Linux Install
         if: matrix.os == 'ubuntu-latest'
@@ -51,7 +51,7 @@ jobs:
           ./vcpkg/bootstrap-vcpkg.sh
           df -h
           df -i
-#          ./vcpkg/vcpkg install --triplet x64-linux
+          ./vcpkg/vcpkg install --triplet x64-linux --clean-buildtrees-after-build
 
       - name: Mac Install
         if: matrix.os == 'macos-latest'
@@ -61,7 +61,7 @@ jobs:
           ./vcpkg/bootstrap-vcpkg.sh
           df -h
           df -i
-#          ./vcpkg/vcpkg install --triplet x64-osx
+          ./vcpkg/vcpkg install --triplet x64-osx --clean-buildtrees-after-build
 
 
       - name: Package release

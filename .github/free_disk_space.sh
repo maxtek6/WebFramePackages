@@ -45,4 +45,6 @@ echo "Removing large directories"
 # deleting 15GB
 rm -rf /usr/share/dotnet/
 rm -rf /opt/hostedtoolcache
+rm -rf /opt/ghc
+rm -rf /usr/local/lib/android
 df -h
