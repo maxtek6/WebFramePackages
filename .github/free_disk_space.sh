@@ -46,5 +46,5 @@ echo "Removing large directories"
 rm -rf /usr/share/dotnet/
 rm -rf /opt/hostedtoolcache
 rm -rf /opt/ghc
-rm -rf /usr/local/lib/android
+sudo rm -rf /usr/local/lib/android
 df -h
