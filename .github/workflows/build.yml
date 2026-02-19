@@ -59,13 +59,23 @@ jobs:
           ./vcpkg/vcpkg install --triplet x64-osx
 
       - name: Package release
+        if: matrix.os != 'windows-latest'
         uses: thedoctor0/zip-release@0.7.5
         with:
           directory: ${{ github.workspace }}/vcpkg
           filename: ${{ github.workspace }}/vcpkg-${{ matrix.os }}.zip
 
+      - name: Package windows
+        if: matrix.os == 'windows-latest'
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          type: 'zip'
+          directory: vcpkg
+          path: .
+          filename: vcpkg-${{ matrix.os }}.zip
+
       - name: Publish release
-        if : matrix.os != 'windows-latest'
+        if: matrix.os != 'windows-latest'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ inputs.release }}
@@ -75,13 +85,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish windows
-        if : matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-latest'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ inputs.release }}
           name: v${{ inputs.release }}
-          files: ${{ github.workspace }}/vcpkg-${{ matrix.os }}.zip
+          files: vcpkg-${{ matrix.os }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      
