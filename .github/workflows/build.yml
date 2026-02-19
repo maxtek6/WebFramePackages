@@ -65,10 +65,23 @@ jobs:
           filename: ${{ github.workspace }}/vcpkg-${{ matrix.os }}.zip
 
       - name: Publish release
+        if : matrix.os != 'windows-latest'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ inputs.release }}
           name: v${{ inputs.release }}
-          files: ${{ matrix.os != 'windows-latest' && ${{ github.workspace }}\vcpkg-${{ matrix.os }}.zip || ${{ github.workspace }}/vcpkg-${{ matrix.os }}.zip }}
+          files: ${{ github.workspace }}/vcpkg-${{ matrix.os }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish windows
+        if : matrix.os == 'windows-latest'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ inputs.release }}
+          name: v${{ inputs.release }}
+          files: ${{ github.workspace }}\vcpkg-${{ matrix.os }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      
