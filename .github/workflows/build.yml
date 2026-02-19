@@ -35,7 +35,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           vcpkg\bootstrap-vcpkg.bat
-          vcpkg\vcpkg install --triplet x64-windows
+#          vcpkg\vcpkg install --triplet x64-windows
 
       - name: Linux Install
         if: matrix.os == 'ubuntu-latest'
@@ -47,8 +47,11 @@ jobs:
           sudo apt-get install -y libsctp-dev libx11-dev libx11-xcb-dev libsm-dev libice-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-render-util0-dev
           sudo apt-get install -y libxcb-render0-dev libxcb-shape0-dev libxcb-shm0-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-xinerama0-dev
           sudo apt-get install -y libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libdbus-1-dev
+          - run: |
           ./vcpkg/bootstrap-vcpkg.sh
-          ./vcpkg/vcpkg install --triplet x64-linux
+          df -h
+          df -i
+#          ./vcpkg/vcpkg install --triplet x64-linux
 
       - name: Mac Install
         if: matrix.os == 'macos-latest'
@@ -56,7 +59,10 @@ jobs:
           find /Applications/Xcode_* -maxdepth 0 -type d ! -name 'Xcode_${{ env.XC_VERSION }}.app' -exec rm -rf {} \;
           brew install autoconf autoconf-archive automake libtool
           ./vcpkg/bootstrap-vcpkg.sh
-          ./vcpkg/vcpkg install --triplet x64-osx
+          df -h
+          df -i
+#          ./vcpkg/vcpkg install --triplet x64-osx
+
 
       - name: Package release
         if: matrix.os != 'windows-latest'
