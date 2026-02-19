@@ -62,13 +62,13 @@ jobs:
         uses: thedoctor0/zip-release@0.7.5
         with:
           directory: ${{ github.workspace }}/vcpkg
-          filename: ${{ github.workspace }}/vcpkg-${{ matrix.os }}-v${{ inputs.release }}.zip
+          filename: ${{ github.workspace }}/vcpkg-${{ matrix.os }}.zip
 
       - name: Publish release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ matrix.os }}-v${{ inputs.release }}
-          name: ${{ matrix.os }}-v${{ inputs.release }}
-          files: ${{ github.workspace }}/vcpkg-${{ matrix.os }}-v${{ inputs.release }}.zip
+          tag_name: v${{ inputs.release }}
+          name: v${{ inputs.release }}
+          files: ${{ matrix.os != 'windows-latest' && ${{ github.workspace }}\vcpkg-${{ matrix.os }}.zip || ${{ github.workspace }}/vcpkg-${{ matrix.os }}.zip }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
