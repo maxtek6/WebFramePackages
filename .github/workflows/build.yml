@@ -23,9 +23,13 @@ jobs:
       - name: Checkout main repo
         uses: actions/checkout@v4
 
-      - name: Clone vcpkg
-        run: git clone https://github.com/microsoft/vcpkg.git
+      - name: Clone vcpkg Windows
+        if: matrix.os == 'windows-latest'
+        run: git clone https://github.com/microsoft/vcpkg.git D:\a\vcpkg
 
+      - name: Clone vcpkg
+        if: matrix.os != 'windows-latest'
+        run: git clone https://github.com/microsoft/vcpkg.git
 
       - name: Get vcpkg manifest
         run: |
@@ -34,8 +38,8 @@ jobs:
       - name: Windows Install
         if: matrix.os == 'windows-latest'
         run: |
-          vcpkg\bootstrap-vcpkg.bat
-          vcpkg\vcpkg install --triplet x64-windows --vcpkg-root ${{ github.workspace }}\vcpkg --clean-buildtrees-after-build
+          D:\a\vcpkg\bootstrap-vcpkg.bat
+          D:\a\vcpkg\vcpkg install --triplet x64-windows --vcpkg-root D:\a\vcpkg --clean-buildtrees-after-build
 
       - name: Linux Install
         if: matrix.os == 'ubuntu-latest'
@@ -76,7 +80,7 @@ jobs:
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: 'zip'
-          directory: vcpkg
+          directory: D:/a/vcpkg
           filename: ../vcpkg-windows-latest.zip
 
       - name: Publish windows
