@@ -59,18 +59,10 @@ jobs:
           ./vcpkg/vcpkg install --triplet x64-osx
 
       - name: Package release
-        if: matrix.os != 'windows-latest'
         uses: thedoctor0/zip-release@0.7.5
         with:
           directory: ${{ github.workspace }}/vcpkg
           filename: ${{ github.workspace }}/vcpkg-${{ matrix.os }}.zip
-
-      - name: Package windows
-        if: matrix.os == 'windows-latest'
-        uses: thedoctor0/zip-release@0.7.5
-        with:
-          directory: ${{ github.workspace }}/vcpkg
-          filename: ${{ github.workspace }}\vcpkg-${{ matrix.os }}.zip
 
       - name: Publish release
         if : matrix.os != 'windows-latest'
