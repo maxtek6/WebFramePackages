@@ -62,19 +62,19 @@ jobs:
         uses: thedoctor0/zip-release@0.7.5
         with:
           directory: ${{ github.workspace }}/vcpkg
-          filename: ${{ github.workspace }}/vcpkg-${{ inputs.release }}-${{ matrix.os }}.zip
+          filename: vcpkg-${{ matrix.os }}-v${{ inputs.release }}.zip
 
       - name: Upload release artifact
         uses: actions/upload-artifact@v4
         with:
-          name: vcpkg-${{ matrix.os }}-${{ inputs.release }}
-          path: ${{ github.workspace }}/vcpkg-${{ inputs.release }}-${{ matrix.os }}.zip
+          name: vcpkg-${{ matrix.os }}-v${{ inputs.release }}
+          path: vcpkg-${{ matrix.os }}-v${{ inputs.release }}.zip
 
       - name: Publish release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ inputs.release }}
-          name: v${{ inputs.release }}-${{ matrix.os }}
-          files: ${{ github.workspace }}/vcpkg-${{ inputs.release }}-${{ matrix.os }}.zip
+          tag_name: ${{ matrix.os }}-v${{ inputs.release }}
+          name: ${{ matrix.os }}-v${{ inputs.release }}
+          files: vcpkg-${{ matrix.os }}-v${{ inputs.release }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
