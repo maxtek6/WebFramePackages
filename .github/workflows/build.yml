@@ -80,7 +80,7 @@ jobs:
         with:
           tag_name: v${{ inputs.release }}
           name: v${{ inputs.release }}
-          files: ${{ github.workspace }}\vcpkg-${{ matrix.os }}.zip
+          files: ${{ github.workspace }}/vcpkg-${{ matrix.os }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
