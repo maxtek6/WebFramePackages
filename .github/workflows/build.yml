@@ -64,17 +64,11 @@ jobs:
           directory: ${{ github.workspace }}/vcpkg
           filename: vcpkg-${{ matrix.os }}-v${{ inputs.release }}.zip
 
-      - name: Upload release artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: vcpkg-${{ matrix.os }}-v${{ inputs.release }}
-          path: vcpkg-${{ matrix.os }}-v${{ inputs.release }}.zip
-
       - name: Publish release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ matrix.os }}-v${{ inputs.release }}
           name: ${{ matrix.os }}-v${{ inputs.release }}
-          files: vcpkg-${{ matrix.os }}-v${{ inputs.release }}.zip
+          files: ${{ github.workspace }}/vcpkg-${{ matrix.os }}-v${{ inputs.release }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
