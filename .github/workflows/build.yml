@@ -71,17 +71,7 @@ jobs:
         with:
           type: 'zip'
           directory: vcpkg
-          filename: vcpkg-windows-latest.zip
-
-      - name: Debug - List files (Windows)
-        if: matrix.os == 'windows-latest'
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Files in current directory:"
-          dir
-          echo "Looking for zip files:"
-          dir *.zip
+          filename: ../vcpkg-windows-latest.zip
 
       - name: Publish windows
         if: matrix.os == 'windows-latest'
