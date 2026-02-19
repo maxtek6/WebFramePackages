@@ -71,8 +71,27 @@ jobs:
         with:
           type: 'zip'
           directory: vcpkg
-          path: .
-          filename: vcpkg-${{ matrix.os }}.zip
+          filename: vcpkg-windows-latest.zip
+
+      - name: Debug - List files (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Files in current directory:"
+          dir
+          echo "Looking for zip files:"
+          dir *.zip
+
+      - name: Publish windows
+        if: matrix.os == 'windows-latest'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ inputs.release }}
+          name: v${{ inputs.release }}
+          files: vcpkg-windows-latest.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish release
         if: matrix.os != 'windows-latest'
@@ -81,15 +100,5 @@ jobs:
           tag_name: v${{ inputs.release }}
           name: v${{ inputs.release }}
           files: ${{ github.workspace }}/vcpkg-${{ matrix.os }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish windows
-        if: matrix.os == 'windows-latest'
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: v${{ inputs.release }}
-          name: v${{ inputs.release }}
-          files: vcpkg-${{ matrix.os }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
