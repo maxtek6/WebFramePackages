@@ -62,7 +62,7 @@ jobs:
         uses: thedoctor0/zip-release@0.7.5
         with:
           directory: ${{ github.workspace }}/vcpkg
-          filename: vcpkg-${{ matrix.os }}-v${{ inputs.release }}.zip
+          filename: ${{ github.workspace }}/vcpkg-${{ matrix.os }}-v${{ inputs.release }}.zip
 
       - name: Publish release
         uses: softprops/action-gh-release@v1
